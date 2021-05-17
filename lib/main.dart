@@ -1,7 +1,5 @@
+import 'package:campus_share/Screens/bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
-
-import './question.dart';
-import './func.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,37 +11,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var questions = [
-    "1st question",
-    "2nd question",
-  ];
-
-  var qi = 0;
-
-  void changeQuestion() {
-    setState(() {
-      qi += 1;
-    });
-    print(qi);
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Campus Share"),
-        ),
-        body: Column(
-          children: [
-            Questions(questions[qi]),
-            HandlerFunctions(changeQuestion, "Question 1"),
-            HandlerFunctions(changeQuestion, "Answer 2"),
-            HandlerFunctions(changeQuestion, "Answer 3"),
-          ],
+      theme: ThemeData(
+        textTheme: TextTheme(
+          headline1: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[800],
+          ),
         ),
       ),
+      home: BottomNavScreen(),
     );
   }
 }
