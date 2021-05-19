@@ -1,11 +1,20 @@
 import 'package:campus_share/Screens/ad_info.dart';
-import 'package:campus_share/models/advertisement.dart';
 import 'package:flutter/material.dart';
 
 class AdGridItem extends StatelessWidget {
-  final Advertisement ad;
+  final double price;
+  final String location;
+  final String title;
+  final String imageUrl;
+  final String adid;
 
-  AdGridItem(this.ad);
+  AdGridItem({
+    this.location,
+    this.price,
+    this.title,
+    this.imageUrl,
+    this.adid,
+  });
 
   String shareSell(double price) {
     if (price == null) {
@@ -21,13 +30,13 @@ class AdGridItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => AdInfo(ad),
+            builder: (ctx) => AdInfo(adid),
           ),
         );
       },
       child: GridTile(
         child: Image.network(
-          ad.imageUrl,
+          imageUrl,
           fit: BoxFit.cover,
         ),
         footer: Container(
@@ -36,12 +45,12 @@ class AdGridItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(shareSell(ad.price)),
-              Text(ad.title),
+              Text(shareSell(price)),
+              Text(title),
               Row(
                 children: [
                   Icon(Icons.location_pin),
-                  Text(ad.location),
+                  Text(location),
                 ],
               )
             ],

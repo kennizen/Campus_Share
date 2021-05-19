@@ -1,11 +1,12 @@
-import 'package:campus_share/models/advertisement.dart';
+import 'package:campus_share/providers/ad_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AdInfo extends StatelessWidget {
-  final Advertisement ad;
+  final String adid;
   final screenWidth = double.infinity;
 
-  AdInfo(this.ad);
+  AdInfo(this.adid);
 
   Widget price(price) {
     if (price == null) {
@@ -24,6 +25,8 @@ class AdInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ads = Provider.of<Advertisements>(context, listen: false).ads;
+    final id = ads.firstWhere((ad) => ad.adid == adid);
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -51,7 +54,7 @@ class AdInfo extends StatelessWidget {
                 width: screenWidth,
                 color: Colors.grey,
                 child: Image.network(
-                  ad.imageUrl,
+                  id.imageUrl,
                 ),
               ),
               Container(
@@ -69,11 +72,11 @@ class AdInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    price(ad.price),
+                    price(id.price),
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
-                      child: Text(ad.title),
+                      child: Text(id.title),
                     ),
                     SizedBox(height: 10),
                     Row(
@@ -83,11 +86,11 @@ class AdInfo extends StatelessWidget {
                           child: Row(
                             children: [
                               Icon(Icons.location_pin),
-                              Text(ad.location),
+                              Text(id.location),
                             ],
                           ),
                         ),
-                        Text(ad.timestamp.toLocal().toString()),
+                        Text(id.timestamp.toLocal().toString()),
                       ],
                     ),
                   ],
@@ -115,7 +118,7 @@ class AdInfo extends StatelessWidget {
                       children: [
                         Text('Category:'),
                         SizedBox(width: 15),
-                        Text(ad.category),
+                        Text(id.category),
                       ],
                     ),
                   ],
@@ -139,7 +142,7 @@ class AdInfo extends StatelessWidget {
                   children: [
                     Text('DESCRIPTION'),
                     SizedBox(height: 20),
-                    Text(ad.description),
+                    Text(id.description),
                   ],
                 ),
               ),
@@ -169,7 +172,7 @@ class AdInfo extends StatelessWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(ad.imageUrl),
+                                image: NetworkImage(id.imageUrl),
                                 fit: BoxFit.fill),
                           ),
                         ),
@@ -179,7 +182,7 @@ class AdInfo extends StatelessWidget {
                           children: [
                             Text('Seller Name'),
                             SizedBox(height: 5),
-                            Text('Member since ${ad.timestamp}')
+                            Text('Member since ${id.timestamp}')
                           ],
                         )
                       ],
@@ -205,7 +208,7 @@ class AdInfo extends StatelessWidget {
                   children: [
                     Text('CONTACT INFORMATION'),
                     SizedBox(height: 10),
-                    Text(ad.contactinfo),
+                    Text(id.contactinfo),
                   ],
                 ),
               ),
@@ -216,7 +219,7 @@ class AdInfo extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('AD ID: ${ad.adid}'),
+                    Text('AD ID: ${id.adid}'),
                     TextButton(
                       onPressed: () {},
                       child: Text('REPORT THIS AD'),

@@ -22,16 +22,6 @@ class Home extends StatelessWidget {
                         'Browse Categories',
                         style: Theme.of(context).textTheme.headline1,
                       ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'See all',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline1
-                              .copyWith(color: Colors.grey[900]),
-                        ),
-                      )
                     ],
                   ),
                   CategoriesScrollList(),
