@@ -1,0 +1,18 @@
+final List<String> locations = [
+  'Charaideo',
+  'Nilachal',
+  'Kanchanjungha',
+  'Patkai',
+  'Saraighat CVRaman',
+  'Bordoichila',
+  'Dhansiri',
+  'Pragjyotika',
+  'Subansiri',
+  'Kopili',
+  'NWH',
+  'Pobitora Madam Curie',
+  'School Of Engineering',
+  'School Of Humanities & Social Sciences',
+  'School Of Management Sciences',
+  'School Of Sciences',
+];

@@ -28,10 +28,7 @@ class Home extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height - 208,
-              child: AdGrid(),
-            )
+            AdGrid()
           ],
         ),
       ),
