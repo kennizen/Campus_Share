@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "657129032989",
+    "project_id": "campus-share-bafc4",
+    "storage_bucket": "campus-share-bafc4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657129032989:android:ee92057bacddba345065f4",
+        "android_client_info": {
+          "package_name": "com.prachurjya.campus_share"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657129032989-72c26vuo62ijg5j8c3skptci0h25ekvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUzn7BCKYe0uFQe1OhUoqHrsX_1mUfWWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657129032989-72c26vuo62ijg5j8c3skptci0h25ekvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

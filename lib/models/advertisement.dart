@@ -6,13 +6,13 @@ class Advertisement {
   final String description;
   final String location;
   final double price;
-  final String sellerid;
   bool markassold;
   final String category;
   int reportcount;
   final String contactinfo;
   final DateTime timestamp;
   final String imageUrl;
+  final String sellerid;
 
   Advertisement({
     @required this.adid,
@@ -23,9 +23,9 @@ class Advertisement {
     this.markassold,
     this.price,
     this.reportcount,
-    @required this.sellerid,
     @required this.timestamp,
     @required this.title,
-    @required this.imageUrl,
+    this.imageUrl,
+    this.sellerid,
   });
 }

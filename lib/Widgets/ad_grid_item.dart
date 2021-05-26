@@ -37,7 +37,7 @@ class AdGridItem extends StatelessWidget {
       child: GridTile(
         child: Image.network(
           imageUrl,
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
         ),
         footer: Container(
           padding: EdgeInsets.only(left: 10, top: 3, bottom: 3),
@@ -50,7 +50,12 @@ class AdGridItem extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.location_pin),
-                  Text(location),
+                  Expanded(
+                    child: Text(
+                      location,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               )
             ],

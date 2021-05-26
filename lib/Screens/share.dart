@@ -6,7 +6,7 @@ class Share extends StatelessWidget {
   void navigateToSellInfo(String catgry, context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => SellShareInfo(catgry, true),
+        builder: (ctx) => SellShareInfo(catgry, 0, null),
       ),
     );
   }
