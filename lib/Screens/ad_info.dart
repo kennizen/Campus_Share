@@ -1,28 +1,15 @@
 import 'package:campus_share/providers/ad_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../services/share_price.dart';
 
 class AdInfo extends StatelessWidget {
   final String adid;
   final screenWidth = double.infinity;
 
   AdInfo(this.adid);
-
-  Widget price(price) {
-    if (price == null) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 5.0),
-        child: Text('Sharing'),
-      );
-    }
-    return Row(
-      children: [
-        Icon(Icons.attach_money),
-        Text(price.toString()),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +28,10 @@ class AdInfo extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Colors.blueGrey[900], Colors.transparent],
+                colors: [
+                  Colors.blueGrey[900].withOpacity(0.9),
+                  Colors.transparent
+                ],
               ),
             ),
           ),
@@ -50,13 +40,32 @@ class AdInfo extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                height: 300,
-                width: screenWidth,
-                color: Colors.grey,
-                child: Image.network(
-                  id.imageUrl,
-                ),
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Container(
+                    height: 300,
+                    width: screenWidth,
+                    color: Colors.blueGrey[900],
+                    child: Image.network(
+                      id.imageUrl,
+                    ),
+                  ),
+                  Container(
+                    height: 100,
+                    width: screenWidth,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Colors.blueGrey[900].withOpacity(0.5),
+                          Colors.transparent
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Container(
                 width: screenWidth,
@@ -73,11 +82,14 @@ class AdInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    price(id.price),
+                    SharePrice(id.price).priceShare(),
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
-                      child: Text(id.title),
+                      child: Text(
+                        id.title,
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
                     ),
                     SizedBox(height: 10),
                     Row(
@@ -86,12 +98,21 @@ class AdInfo extends StatelessWidget {
                         Container(
                           child: Row(
                             children: [
-                              Icon(Icons.location_pin),
-                              Text(id.location),
+                              Icon(
+                                Icons.location_on_outlined,
+                                size: 18,
+                              ),
+                              Text(
+                                id.location,
+                                style: Theme.of(context).textTheme.headline1,
+                              ),
                             ],
                           ),
                         ),
-                        Text(id.timestamp.toLocal().toString()),
+                        Text(
+                          DateFormat.yMd().format(id.timestamp),
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
                       ],
                     ),
                   ],
@@ -113,13 +134,22 @@ class AdInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('DETAILS'),
+                    Text(
+                      'DETAILS',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
                     SizedBox(height: 20),
                     Row(
                       children: [
-                        Text('Category:'),
+                        Text(
+                          'CATEGORY:',
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
                         SizedBox(width: 15),
-                        Text(id.category),
+                        Text(
+                          id.category,
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
                       ],
                     ),
                   ],
@@ -141,9 +171,15 @@ class AdInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('DESCRIPTION'),
+                    Text(
+                      'DESCRIPTION',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
                     SizedBox(height: 20),
-                    Text(id.description),
+                    Text(
+                      id.description,
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
                   ],
                 ),
               ),
@@ -172,13 +208,16 @@ class AdInfo extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('AD BY'),
+                            Text(
+                              'AD BY',
+                              style: Theme.of(context).textTheme.headline1,
+                            ),
                             SizedBox(height: 20),
                             Row(
                               children: [
                                 Container(
-                                  width: 60,
-                                  height: 60,
+                                  width: 70,
+                                  height: 70,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
@@ -192,9 +231,23 @@ class AdInfo extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(snapshot.data['username']),
+                                    Text(
+                                      snapshot.data['username'],
+                                      style:
+                                          Theme.of(context).textTheme.headline2,
+                                    ),
                                     SizedBox(height: 5),
-                                    Text('${snapshot.data['email']}')
+                                    Text(
+                                      '${snapshot.data['email']}',
+                                      style:
+                                          Theme.of(context).textTheme.headline3,
+                                    ),
+                                    SizedBox(height: 2),
+                                    Text(
+                                      'Member since: ${DateFormat.yMd().format(DateTime.parse(snapshot.data['joinDate']))}',
+                                      style:
+                                          Theme.of(context).textTheme.headline3,
+                                    ),
                                   ],
                                 )
                               ],
@@ -220,9 +273,15 @@ class AdInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('CONTACT INFORMATION'),
+                    Text(
+                      'CONTACT INFORMATION',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
                     SizedBox(height: 10),
-                    Text(id.contactinfo),
+                    Text(
+                      id.contactinfo,
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
                   ],
                 ),
               ),
@@ -231,8 +290,18 @@ class AdInfo extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blueGrey[900],
+                    elevation: 0,
+                  ),
                   onPressed: () {},
-                  child: Text('REPORT THIS AD'),
+                  child: Text(
+                    'REPORT THIS AD',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline1
+                        .copyWith(color: Colors.white),
+                  ),
                 ),
               ),
             ],

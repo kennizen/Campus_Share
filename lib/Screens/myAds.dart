@@ -13,6 +13,10 @@ class MyAds extends StatefulWidget {
 }
 
 class _MyAdsState extends State<MyAds> {
+  void manualReset() {
+    setState(() {});
+  }
+
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
@@ -31,9 +35,14 @@ class _MyAdsState extends State<MyAds> {
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) => GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (ctx) =>
-                              UserAdInfo(value.userAds[index].adid)));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => UserAdInfo(
+                            value.userAds[index].adid,
+                            manualReset,
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -73,19 +82,25 @@ class _MyAdsState extends State<MyAds> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              FontAwesome.rupee,
-                                              size: 14,
-                                            ),
-                                            Text(
-                                              value.userAds[index].price
-                                                  .toString(),
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                          ],
-                                        ),
+                                        value.userAds[index].price == 0
+                                            ? Text(
+                                                'Sharing',
+                                                style: TextStyle(fontSize: 14),
+                                              )
+                                            : Row(
+                                                children: [
+                                                  Icon(
+                                                    FontAwesome.rupee,
+                                                    size: 14,
+                                                  ),
+                                                  Text(
+                                                    value.userAds[index].price
+                                                        .toString(),
+                                                    style:
+                                                        TextStyle(fontSize: 14),
+                                                  ),
+                                                ],
+                                              ),
                                         Text(
                                           DateFormat.yMd().format(
                                               value.userAds[index].timestamp),

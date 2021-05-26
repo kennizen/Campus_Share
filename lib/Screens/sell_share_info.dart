@@ -15,8 +15,9 @@ class SellShareInfo extends StatefulWidget {
   final String _cat;
   final double _isShare;
   final String receivedAdid;
+  final Function manualReset;
 
-  SellShareInfo(this._cat, this._isShare, this.receivedAdid);
+  SellShareInfo(this._cat, this._isShare, this.receivedAdid, this.manualReset);
 
   @override
   _SellShareInfoState createState() => _SellShareInfoState();
@@ -82,9 +83,9 @@ class _SellShareInfoState extends State<SellShareInfo> {
   String description = '';
   String location = '';
   String title = '';
-  double price;
-  String initPrice = '';
+  double price = 0;
   String initImageUrl = '';
+  String initPrice = '';
 
   @override
   void didChangeDependencies() {
@@ -95,12 +96,8 @@ class _SellShareInfoState extends State<SellShareInfo> {
         final foundAd = provider
             .firstWhere((element) => element.adid == widget.receivedAdid);
         ad = foundAd;
-        contactinfo = ad.contactinfo;
-        description = ad.description;
-        location = ad.location;
-        title = ad.title;
-        initPrice = ad.price.toString();
         initImageUrl = ad.imageUrl;
+        initPrice = ad.price.toString();
       }
     }
     _isInit = false;
@@ -108,25 +105,54 @@ class _SellShareInfoState extends State<SellShareInfo> {
 
   void submitForm() async {
     _formKey.currentState.save();
-    String url = await uploadFile(_image);
-    ad = Advertisement(
-      adid: Uuid().v4().toString(),
-      category: widget._cat,
-      contactinfo: contactinfo,
-      description: description,
-      location: location,
-      timestamp: DateTime.now(),
-      title: title,
-      imageUrl: url,
-      price: price,
-      markassold: ad.markassold,
-      reportcount: ad.reportcount,
-      sellerid: _auth.authUser.currentUser.uid,
-    );
-    await DatabaseService(uid: _auth.authUser.currentUser.uid).createAd(ad);
-    setState(() {
-      _isLoading = false;
-    });
+    String url;
+    if (_image != null) {
+      url = await uploadFile(_image);
+    }
+
+    if (ad.adid == null) {
+      ad = Advertisement(
+        adid: Uuid().v4().toString(),
+        category: widget._cat,
+        contactinfo: contactinfo,
+        description: description,
+        location: location,
+        timestamp: DateTime.now(),
+        title: title,
+        imageUrl: url,
+        price: price,
+        markassold: ad.markassold,
+        reportcount: ad.reportcount,
+        sellerid: _auth.authUser.currentUser.uid,
+      );
+      await DatabaseService(uid: _auth.authUser.currentUser.uid).createAd(ad);
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      ad = Advertisement(
+        adid: ad.adid,
+        category: widget._cat,
+        contactinfo: contactinfo,
+        description: description,
+        location: location,
+        timestamp: ad.timestamp,
+        title: title,
+        imageUrl: _image == null ? initImageUrl : url,
+        price: price,
+        markassold: ad.markassold,
+        reportcount: ad.reportcount,
+        sellerid: ad.sellerid,
+      );
+      setState(() {
+        _isLoading = true;
+      });
+      await DatabaseService(uid: _auth.authUser.currentUser.uid).updateAd(ad);
+      setState(() {
+        _isLoading = false;
+      });
+      widget.manualReset();
+    }
     Navigator.of(context).pop();
   }
 
@@ -188,22 +214,30 @@ class _SellShareInfoState extends State<SellShareInfo> {
                       _dropDownVal = val;
                     });
                   },
-                  onSaved: (_) {
-                    location = _dropDownVal;
+                  onSaved: (value) {
+                    if (ad.location != '') {
+                      value = ad.location;
+                      location = value;
+                    } else {
+                      location = _dropDownVal;
+                    }
                   },
                   validator: (value) {
+                    if (ad.location != '') {
+                      value = ad.location;
+                    }
                     if (value == null || value.isEmpty) {
                       return 'Please select a location';
                     }
                     return null;
                   },
                   hint: widget.receivedAdid != null
-                      ? Text(location)
+                      ? Text(ad.location)
                       : Text('Select location'),
                 ),
                 SizedBox(height: 20),
                 TextFormField(
-                  initialValue: title,
+                  initialValue: ad.title,
                   maxLength: 70,
                   textAlignVertical: TextAlignVertical.bottom,
                   decoration: InputDecoration(
@@ -221,7 +255,7 @@ class _SellShareInfoState extends State<SellShareInfo> {
                   },
                 ),
                 TextFormField(
-                  initialValue: description,
+                  initialValue: ad.description,
                   maxLength: 2000,
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -255,7 +289,7 @@ class _SellShareInfoState extends State<SellShareInfo> {
                         ),
                       ),
                 TextFormField(
-                  initialValue: contactinfo,
+                  initialValue: ad.contactinfo,
                   textAlignVertical: TextAlignVertical.bottom,
                   maxLength: 500,
                   maxLines: null,
@@ -272,8 +306,11 @@ class _SellShareInfoState extends State<SellShareInfo> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: TextButton(
-                    child:
-                        _isLoading ? CircularProgressIndicator() : Text('POST'),
+                    child: _isLoading
+                        ? CircularProgressIndicator()
+                        : ad.adid == null
+                            ? Text('POST')
+                            : Text('UPDATE'),
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         submitForm();

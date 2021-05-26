@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 
 class UpdateSell extends StatelessWidget {
   final String adid;
+  final Function manualReset;
 
-  UpdateSell(this.adid);
+  UpdateSell(this.adid, this.manualReset);
 
   @override
   Widget build(BuildContext context) {
     void navigateToSellInfo(String catgry, context) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (ctx) => SellShareInfo(catgry, 1, adid),
+          builder: (ctx) => SellShareInfo(catgry, 1, adid, manualReset),
         ),
       );
     }

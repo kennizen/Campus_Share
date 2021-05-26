@@ -24,6 +24,7 @@ class Account extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -42,7 +43,7 @@ class Account extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // SizedBox(height: 30),
+                    SizedBox(height: 30),
                     // Row(
                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     //   children: [
@@ -58,7 +59,7 @@ class Account extends StatelessWidget {
                       onPressed: () async {
                         await _auth.signOutOfApp();
                       },
-                      child: Text('LOGOUT'),
+                      child: Text('Khatam Tata Bye Bye'),
                     ),
                   ],
                 ),

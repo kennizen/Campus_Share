@@ -56,4 +56,35 @@ class DatabaseService {
       return null;
     }
   }
+
+  Future updateAd(Advertisement ad) async {
+    try {
+      await advertisments.doc(ad.adid).update({
+        'adid': ad.adid,
+        'title': ad.title,
+        'description': ad.description,
+        'location': ad.location,
+        'price': ad.price.toString(),
+        'image': ad.imageUrl,
+        'markassold': ad.markassold,
+        'category': ad.category,
+        'reportcount': ad.reportcount,
+        'contactinfo': ad.contactinfo,
+        'timestamp': ad.timestamp.toIso8601String(),
+        'sellerid': ad.sellerid,
+      });
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<void> deleteAd(String adid) async {
+    try {
+      await advertisments.doc(adid).delete();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

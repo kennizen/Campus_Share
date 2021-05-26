@@ -1,6 +1,9 @@
 import 'package:campus_share/Screens/update_sell.dart';
 import 'package:campus_share/Screens/update_share.dart';
 import 'package:campus_share/providers/ad_provider.dart';
+import 'package:campus_share/services/auth.dart';
+import 'package:campus_share/services/database_services.dart';
+import 'package:campus_share/services/share_price.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
@@ -9,33 +12,20 @@ import 'package:provider/provider.dart';
 class UserAdInfo extends StatelessWidget {
   final String adid;
   final screenWidth = double.infinity;
+  final AuthService _auth = AuthService();
+  final Function manualReset;
 
-  UserAdInfo(this.adid);
-
-  Widget price(price) {
-    if (price == 0) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 5.0),
-        child: Text('Sharing'),
-      );
-    }
-    return Row(
-      children: [
-        Icon(FontAwesome.rupee),
-        Text(price.toString()),
-      ],
-    );
-  }
+  UserAdInfo(this.adid, this.manualReset);
 
   void navigateAccToPrice(double price, BuildContext context) {
     if (price == 0) {
       print('update Share');
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => UpdateShare(adid)));
+          MaterialPageRoute(builder: (ctx) => UpdateShare(adid, manualReset)));
     } else {
       print('update Sell');
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => UpdateSell(adid)));
+          MaterialPageRoute(builder: (ctx) => UpdateSell(adid, manualReset)));
     }
   }
 
@@ -60,7 +50,12 @@ class UserAdInfo extends StatelessWidget {
             IconButton(
               splashRadius: 25,
               highlightColor: Colors.transparent,
-              onPressed: () {},
+              onPressed: () async {
+                await DatabaseService(uid: _auth.authUser.currentUser.uid)
+                    .deleteAd(adid);
+                manualReset();
+                Navigator.of(context).pop();
+              },
               icon: Icon(FontAwesome.trash),
             ),
           ],
@@ -105,7 +100,7 @@ class UserAdInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    price(id.price),
+                    SharePrice(id.price).priceShare(),
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 5),

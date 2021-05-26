@@ -20,10 +20,10 @@ class AdGrid extends StatelessWidget {
                     builder: (context, value, child) => GridView.builder(
                       padding: EdgeInsets.all(10),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 3 / 3,
+                        childAspectRatio: 3 / 4,
                         crossAxisCount: 2,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
                       ),
                       itemCount: value.ads.length,
                       itemBuilder: (context, index) => AdGridItem(

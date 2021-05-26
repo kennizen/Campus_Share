@@ -8,7 +8,7 @@ class Sell extends StatelessWidget {
     void navigateToSellInfo(String catgry, context) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (ctx) => SellShareInfo(catgry, 1, null),
+          builder: (ctx) => SellShareInfo(catgry, 1, null, null),
         ),
       );
     }

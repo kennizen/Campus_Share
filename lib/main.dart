@@ -45,10 +45,25 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: TextTheme(
+            headline2: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey[900],
+            ),
             headline1: TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey[800],
+              fontWeight: FontWeight.w400,
+              color: Colors.grey[900],
+            ),
+            headline4: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: Colors.grey[900],
+            ),
+            headline3: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+              color: Colors.grey[900],
             ),
           ),
         ),
