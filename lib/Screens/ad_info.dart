@@ -17,6 +17,7 @@ class AdInfo extends StatelessWidget {
     final id = ads.firstWhere((ad) => ad.adid == adid);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           iconTheme: IconThemeData(

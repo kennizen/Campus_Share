@@ -2,6 +2,7 @@
 import 'package:campus_share/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 // import 'package:provider/provider.dart';
 
 class Account extends StatelessWidget {
@@ -10,8 +11,11 @@ class Account extends StatelessWidget {
   Widget build(BuildContext context) {
     // final userAds = Provider.of<Advertisements>(context).userAds;
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('Profile'),
+        elevation: 0,
+        backgroundColor: Theme.of(context).backgroundColor,
+        title: Text('Profile', style: Theme.of(context).textTheme.headline2),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -34,32 +38,43 @@ class Account extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              snapshot.data['username'],
-                              style: TextStyle(fontSize: 30),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                snapshot.data['username'],
+                                style: TextStyle(fontSize: 30),
+                              ),
                             ),
-                            Text(snapshot.data['email']),
+                            Text(
+                              snapshot.data['email'],
+                              style: Theme.of(context).textTheme.headline1,
+                            ),
+                            SizedBox(height: 3),
+                            Text(
+                              'Joining date: ${DateFormat.yMd().format(DateTime.parse(snapshot.data['joinDate']))}',
+                              style: Theme.of(context).textTheme.headline1,
+                            ),
                           ],
                         ),
                       ],
                     ),
-                    SizedBox(height: 30),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text('Total Ads'),
-                    //     SizedBox(width: 50),
-                    //     Text(
-                    //       userAds.length.toString(),
-                    //       style: TextStyle(fontSize: 16),
-                    //     ),
-                    //   ],
-                    // ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        await _auth.signOutOfApp();
-                      },
-                      child: Text('Khatam Tata Bye Bye'),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blueGrey[900],
+                        ),
+                        onPressed: () async {
+                          await _auth.signOutOfApp();
+                        },
+                        child: Text(
+                          'LOGOUT',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline1
+                              .copyWith(color: Colors.white),
+                        ),
+                      ),
                     ),
                   ],
                 ),

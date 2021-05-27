@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          backgroundColor: Colors.white,
           textTheme: TextTheme(
             headline2: TextStyle(
               fontSize: 20,
@@ -63,6 +64,11 @@ class _MyAppState extends State<MyApp> {
             headline3: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w300,
+              color: Colors.grey[900],
+            ),
+            headline5: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
               color: Colors.grey[900],
             ),
           ),

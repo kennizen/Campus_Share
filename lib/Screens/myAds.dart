@@ -21,8 +21,14 @@ class _MyAdsState extends State<MyAds> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('My Ads'),
+        elevation: 0,
+        backgroundColor: Theme.of(context).backgroundColor,
+        title: Text(
+          'All advertisments',
+          style: Theme.of(context).textTheme.headline2,
+        ),
       ),
       body: FutureBuilder(
         future: Provider.of<Advertisements>(context, listen: false)
@@ -46,8 +52,12 @@ class _MyAdsState extends State<MyAds> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[200],
+                        color: Theme.of(context).backgroundColor,
                         borderRadius: BorderRadius.all(Radius.circular(5)),
+                        border: Border.all(
+                          color: Colors.grey[400],
+                          width: 2,
+                        ),
                       ),
                       margin: const EdgeInsets.symmetric(
                         vertical: 10,
@@ -77,33 +87,54 @@ class _MyAdsState extends State<MyAds> {
                                   ),
                                   SizedBox(height: 10),
                                   Container(
-                                    width: 250,
+                                    width: 230,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         value.userAds[index].price == 0
-                                            ? Text(
-                                                'Sharing',
-                                                style: TextStyle(fontSize: 14),
+                                            ? Row(
+                                                children: [
+                                                  Icon(
+                                                    FontAwesome.handshake_o,
+                                                    size: 16,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    'Sharing',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline1,
+                                                  ),
+                                                ],
                                               )
                                             : Row(
                                                 children: [
                                                   Icon(
                                                     FontAwesome.rupee,
-                                                    size: 14,
+                                                    size: 16,
                                                   ),
                                                   Text(
                                                     value.userAds[index].price
                                                         .toString(),
-                                                    style:
-                                                        TextStyle(fontSize: 14),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline1,
                                                   ),
                                                 ],
                                               ),
-                                        Text(
-                                          DateFormat.yMd().format(
-                                              value.userAds[index].timestamp),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            DateFormat.yMd().format(
+                                                value.userAds[index].timestamp),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline4,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -122,16 +153,27 @@ class _MyAdsState extends State<MyAds> {
                             children: [
                               Container(
                                 alignment: Alignment.center,
-                                height: 25,
-                                width: 70,
-                                color: value.userAds[index].markassold
-                                    ? Colors.red[200]
-                                    : Colors.cyan,
-                                child: value.userAds[index].markassold
-                                    ? Text('Disabled')
-                                    : Text('Active'),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  color: value.userAds[index].markassold
+                                      ? Colors.redAccent[100]
+                                      : Colors.cyanAccent,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  value.userAds[index].markassold
+                                      ? 'Disabled'
+                                      : 'Active',
+                                  style: Theme.of(context).textTheme.headline4,
+                                ),
                               ),
                               ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  primary: Colors.blueGrey[900],
+                                ),
                                 onPressed: () async {
                                   if (value.userAds[index].markassold) {
                                     await DatabaseService(
@@ -147,9 +189,15 @@ class _MyAdsState extends State<MyAds> {
                                     setState(() {});
                                   }
                                 },
-                                child: value.userAds[index].markassold
-                                    ? Text('Republish')
-                                    : Text('Mark as sold'),
+                                child: Text(
+                                  value.userAds[index].markassold
+                                      ? 'Republish'
+                                      : 'Mark as sold',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      .copyWith(color: Colors.white),
+                                ),
                               ),
                             ],
                           ),

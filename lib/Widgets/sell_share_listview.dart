@@ -1,3 +1,4 @@
+import 'package:campus_share/store/categories.dart';
 import 'package:flutter/material.dart';
 
 class SellShareListView extends StatelessWidget {
@@ -8,43 +9,29 @@ class SellShareListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(appBarTitle),
-      ),
-      body: ListView(
-        children: [
-          ListTile(
-            leading: Icon(Icons.tv),
-            title: Text('Electronics'),
-            trailing: Icon(Icons.arrow_forward_ios_rounded),
-            onTap: () => nav('Electronics', context),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.blueGrey[900], //change your color here
           ),
-          ListTile(
-            leading: Icon(Icons.tv),
-            title: Text('Books'),
-            trailing: Icon(Icons.arrow_forward_ios_rounded),
-            onTap: () => nav('Books', context),
+          elevation: 0,
+          backgroundColor: Theme.of(context).backgroundColor,
+          title: Text(
+            appBarTitle,
+            style: Theme.of(context).textTheme.headline2,
           ),
-          ListTile(
-            leading: Icon(Icons.tv),
-            title: Text('Instruments'),
+        ),
+        body: ListView.builder(
+          itemCount: categories.length,
+          itemBuilder: (context, index) => ListTile(
+            leading: catIcons[index],
+            title: Text(categories[index]),
             trailing: Icon(Icons.arrow_forward_ios_rounded),
-            onTap: () => nav('Instruments', context),
+            onTap: () => nav(categories[index], context),
           ),
-          ListTile(
-            leading: Icon(Icons.tv),
-            title: Text('Cycles'),
-            trailing: Icon(Icons.arrow_forward_ios_rounded),
-            onTap: () => nav('Cycles', context),
-          ),
-          ListTile(
-            leading: Icon(Icons.tv),
-            title: Text('Others'),
-            trailing: Icon(Icons.arrow_forward_ios_rounded),
-            onTap: () => nav('Others', context),
-          ),
-        ],
+        ),
       ),
     );
   }

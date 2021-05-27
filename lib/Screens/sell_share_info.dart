@@ -32,18 +32,19 @@ class _SellShareInfoState extends State<SellShareInfo> {
   var _dropDownVal = '';
   var _isLoading = false;
   var _isInit = true;
+  var _isImageSelected = true;
 
   Future getImage(ImageSource src) async {
     final pickedFile = await picker.getImage(
       source: src,
-      imageQuality: 80,
+      maxHeight: 500,
+      imageQuality: 50,
     );
     setState(() {
       if (pickedFile != null) {
         initImageUrl = '';
         _image = File(pickedFile.path);
-      } else {
-        print('NO image selected');
+        _isImageSelected = true;
       }
     });
   }
@@ -160,8 +161,17 @@ class _SellShareInfoState extends State<SellShareInfo> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          title: Text(widget._cat),
+          iconTheme: IconThemeData(
+            color: Colors.blueGrey[900], //change your color here
+          ),
+          elevation: 0,
+          backgroundColor: Theme.of(context).backgroundColor,
+          title: Text(
+            widget._cat,
+            style: Theme.of(context).textTheme.headline2,
+          ),
         ),
         body: Form(
           key: _formKey,
@@ -172,7 +182,6 @@ class _SellShareInfoState extends State<SellShareInfo> {
               children: [
                 Container(
                   margin: const EdgeInsets.only(bottom: 5),
-                  width: double.infinity,
                   height: 250,
                   color: Colors.grey[300],
                   child: initImageUrl != ''
@@ -184,24 +193,51 @@ class _SellShareInfoState extends State<SellShareInfo> {
                               fit: BoxFit.contain,
                             ),
                 ),
+                _isImageSelected
+                    ? Container()
+                    : Text(
+                        'Please select an image',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.red[700],
+                          fontSize: 12,
+                        ),
+                      ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      OutlinedButton(
-                        child: Icon(Icons.add_a_photo),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blueGrey[900],
+                          elevation: 0,
+                        ),
+                        child: Icon(
+                          Icons.add_a_photo,
+                          color: Colors.white,
+                        ),
                         onPressed: () => getImage(ImageSource.camera),
                       ),
                       SizedBox(width: 25),
-                      OutlinedButton(
-                        child: Icon(Icons.add_photo_alternate),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blueGrey[900],
+                          elevation: 0,
+                        ),
+                        child: Icon(
+                          Icons.add_photo_alternate,
+                          color: Colors.white,
+                        ),
                         onPressed: () => getImage(ImageSource.gallery),
                       ),
                     ],
                   ),
                 ),
-                Text('Ad Location*'),
+                Text(
+                  'Ad Location*',
+                  style: TextStyle(color: Colors.grey[700]),
+                ),
                 DropdownButtonFormField<String>(
                   items: _locations
                       .map((item) => DropdownMenuItem(
@@ -231,9 +267,12 @@ class _SellShareInfoState extends State<SellShareInfo> {
                     }
                     return null;
                   },
-                  hint: widget.receivedAdid != null
-                      ? Text(ad.location)
-                      : Text('Select location'),
+                  hint: Text(
+                    widget.receivedAdid != null
+                        ? ad.location
+                        : 'Select location',
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
                 ),
                 SizedBox(height: 20),
                 TextFormField(
@@ -268,6 +307,12 @@ class _SellShareInfoState extends State<SellShareInfo> {
                     description = val;
                   },
                   textInputAction: TextInputAction.newline,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a description';
+                    }
+                    return null;
+                  },
                 ),
                 widget._isShare == 0
                     ? Container()
@@ -281,11 +326,17 @@ class _SellShareInfoState extends State<SellShareInfo> {
                             labelText: 'Ad price*',
                           ),
                           onSaved: (val) {
-                            val == null || val == ''
-                                ? price = 0
-                                : price = double.parse(val);
+                            price = double.parse(val);
                           },
                           keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                double.parse(value) <= 10) {
+                              return 'Price must be more than 10 rupees';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                 TextFormField(
@@ -302,27 +353,39 @@ class _SellShareInfoState extends State<SellShareInfo> {
                     contactinfo = val;
                   },
                   textInputAction: TextInputAction.newline,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter contact info';
+                    }
+                    return null;
+                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: TextButton(
                     child: _isLoading
                         ? CircularProgressIndicator()
-                        : ad.adid == null
-                            ? Text('POST')
-                            : Text('UPDATE'),
+                        : Text(
+                            ad.adid == null ? 'POST' : 'UPDATE',
+                            style:
+                                Theme.of(context).textTheme.headline1.copyWith(
+                                      color: Colors.white,
+                                    ),
+                          ),
                     onPressed: () {
+                      if (ad.adid == null && _image == null) {
+                        setState(() {
+                          _isImageSelected = false;
+                        });
+                        return;
+                      }
                       if (_formKey.currentState.validate()) {
                         submitForm();
                       }
                     },
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                        Colors.white,
-                      ),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        Colors.blueGrey,
-                      ),
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: Colors.blueGrey[900],
                     ),
                   ),
                 ),

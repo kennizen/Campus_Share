@@ -3,6 +3,7 @@ import 'package:campus_share/Screens/myAds.dart';
 import 'package:campus_share/Screens/sell.dart';
 import 'package:campus_share/Screens/share.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 import 'Home.dart';
 
@@ -36,24 +37,29 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
+              backgroundColor: Theme.of(context).backgroundColor,
               icon: Icon(Icons.home),
               label: 'HOME',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.share_outlined),
+              backgroundColor: Theme.of(context).backgroundColor,
+              icon: Icon(FontAwesome5.handshake),
               label: 'SHARE',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.monetization_on_outlined),
+              backgroundColor: Theme.of(context).backgroundColor,
+              icon: Icon(FontAwesome.rupee),
               label: 'SELL',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.business),
+              backgroundColor: Theme.of(context).backgroundColor,
+              icon: Icon(Icons.favorite_border_rounded),
               label: 'MY ADS',
             ),
             BottomNavigationBarItem(
+              backgroundColor: Theme.of(context).backgroundColor,
               icon: Icon(Icons.perm_identity),
-              label: 'ACCOUNT',
+              label: 'PROFILE',
             ),
           ],
           currentIndex: _selectedIndex,

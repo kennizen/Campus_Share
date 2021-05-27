@@ -35,6 +35,7 @@ class UserAdInfo extends StatelessWidget {
     final id = ads.firstWhere((ad) => ad.adid == adid);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           actions: [
@@ -77,13 +78,32 @@ class UserAdInfo extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                height: 300,
-                width: screenWidth,
-                color: Colors.grey,
-                child: Image.network(
-                  id.imageUrl,
-                ),
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Container(
+                    height: 300,
+                    width: screenWidth,
+                    color: Colors.grey,
+                    child: Image.network(
+                      id.imageUrl,
+                    ),
+                  ),
+                  Container(
+                    height: 100,
+                    width: screenWidth,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Colors.blueGrey[900].withOpacity(0.5),
+                          Colors.transparent
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Container(
                 width: screenWidth,
@@ -104,7 +124,10 @@ class UserAdInfo extends StatelessWidget {
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
-                      child: Text(id.title),
+                      child: Text(
+                        id.title,
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
                     ),
                     SizedBox(height: 10),
                     Row(
@@ -113,12 +136,18 @@ class UserAdInfo extends StatelessWidget {
                         Container(
                           child: Row(
                             children: [
-                              Icon(Icons.location_pin),
-                              Text(id.location),
+                              Icon(Icons.location_on_outlined),
+                              Text(
+                                id.location,
+                                style: Theme.of(context).textTheme.headline1,
+                              ),
                             ],
                           ),
                         ),
-                        Text(DateFormat.yMd().format(id.timestamp)),
+                        Text(
+                          DateFormat.yMd().format(id.timestamp),
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
                       ],
                     ),
                   ],
@@ -140,13 +169,22 @@ class UserAdInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('DETAILS'),
+                    Text(
+                      'DETAILS',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
                     SizedBox(height: 20),
                     Row(
                       children: [
-                        Text('Category:'),
+                        Text(
+                          'Category:',
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
                         SizedBox(width: 15),
-                        Text(id.category),
+                        Text(
+                          id.category,
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
                       ],
                     ),
                   ],
@@ -168,9 +206,15 @@ class UserAdInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('DESCRIPTION'),
+                    Text(
+                      'DESCRIPTION',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
                     SizedBox(height: 20),
-                    Text(id.description),
+                    Text(
+                      id.description,
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
                   ],
                 ),
               ),
@@ -182,9 +226,15 @@ class UserAdInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('CONTACT INFORMATION'),
+                    Text(
+                      'CONTACT INFORMATION',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
                     SizedBox(height: 20),
-                    Text(id.contactinfo),
+                    Text(
+                      id.contactinfo,
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
                   ],
                 ),
               ),

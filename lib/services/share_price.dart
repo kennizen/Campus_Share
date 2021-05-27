@@ -8,16 +8,25 @@ class SharePrice {
 
   Widget priceShare() {
     if (price == 0) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 5.0),
-        child: Text(
-          'Sharing',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: Colors.blueGrey[900],
+      return Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: Icon(
+              FontAwesome.handshake_o,
+              size: 20,
+            ),
           ),
-        ),
+          SizedBox(width: 12),
+          Text(
+            'Sharing',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Colors.blueGrey[900],
+            ),
+          ),
+        ],
       );
     }
     return Row(
