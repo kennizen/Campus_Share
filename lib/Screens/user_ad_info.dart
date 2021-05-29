@@ -1,7 +1,6 @@
 import 'package:campus_share/Screens/update_sell.dart';
 import 'package:campus_share/Screens/update_share.dart';
 import 'package:campus_share/providers/ad_provider.dart';
-import 'package:campus_share/services/auth.dart';
 import 'package:campus_share/services/database_services.dart';
 import 'package:campus_share/services/share_price.dart';
 import 'package:flutter/material.dart';
@@ -9,30 +8,64 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class UserAdInfo extends StatelessWidget {
+class UserAdInfo extends StatefulWidget {
   final String adid;
-  final screenWidth = double.infinity;
-  final AuthService _auth = AuthService();
   final Function manualReset;
 
   UserAdInfo(this.adid, this.manualReset);
 
+  @override
+  _UserAdInfoState createState() => _UserAdInfoState();
+}
+
+class _UserAdInfoState extends State<UserAdInfo> {
+  final screenWidth = double.infinity;
+
   void navigateAccToPrice(double price, BuildContext context) {
     if (price == 0) {
       print('update Share');
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => UpdateShare(adid, manualReset)));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (ctx) => UpdateShare(widget.adid, widget.manualReset)));
     } else {
       print('update Sell');
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => UpdateSell(adid, manualReset)));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (ctx) => UpdateSell(widget.adid, widget.manualReset)));
     }
+  }
+
+  Future<void> _showAlert() async {
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Delete Ad'),
+        content: Text(
+          'Are you sure you want to delete this Ad permanently?',
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Yes'),
+            onPressed: () async {
+              await DatabaseService().deleteAd(widget.adid);
+              widget.manualReset();
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('No'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final ads = Provider.of<Advertisements>(context, listen: false).ads;
-    final id = ads.firstWhere((ad) => ad.adid == adid);
+    final ads = Provider.of<Advertisements>(context, listen: false).userAds;
+    final id = ads.firstWhere((ad) => ad.adid == widget.adid);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -52,10 +85,7 @@ class UserAdInfo extends StatelessWidget {
               splashRadius: 25,
               highlightColor: Colors.transparent,
               onPressed: () async {
-                await DatabaseService(uid: _auth.authUser.currentUser.uid)
-                    .deleteAd(adid);
-                manualReset();
-                Navigator.of(context).pop();
+                await _showAlert();
               },
               icon: Icon(FontAwesome.trash),
             ),
@@ -137,9 +167,13 @@ class UserAdInfo extends StatelessWidget {
                           child: Row(
                             children: [
                               Icon(Icons.location_on_outlined),
-                              Text(
-                                id.location,
-                                style: Theme.of(context).textTheme.headline1,
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  id.location,
+                                  style: Theme.of(context).textTheme.headline3,
+                                  overflow: TextOverflow.fade,
+                                ),
                               ),
                             ],
                           ),

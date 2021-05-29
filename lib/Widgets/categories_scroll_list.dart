@@ -1,3 +1,4 @@
+import 'package:campus_share/Screens/browse_cat_screen.dart';
 import 'package:campus_share/store/categories.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,13 @@ class CategoriesScrollList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
         itemBuilder: (context, index) => InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => BrowseCatScreen(categories[index]),
+              ),
+            );
+          },
           child: Container(
             padding: EdgeInsets.all(5),
             width: 110.0,

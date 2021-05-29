@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class Advertisements with ChangeNotifier {
   List<Advertisement> _ads = [];
   List<Advertisement> _userAds = [];
+  List<Advertisement> _adsBrowse = [];
+
   CollectionReference col =
       FirebaseFirestore.instance.collection('Advertisments');
   final AuthService _auth = AuthService();
@@ -19,11 +21,19 @@ class Advertisements with ChangeNotifier {
     return [..._userAds];
   }
 
+  List<Advertisement> get adsBrowse {
+    return [..._adsBrowse];
+  }
+
   Future<void> fetchAllAd() async {
     Query query = col;
     try {
       final List<Advertisement> loadedAds = [];
-      await query.where('markassold', isEqualTo: false).get().then(
+      await query
+          .where('markassold', isEqualTo: false)
+          .where('sellerid', isNotEqualTo: _auth.authUser.currentUser.uid)
+          .get()
+          .then(
             (value) => value.docs.forEach(
               (ad) {
                 final newAd = Advertisement(
@@ -46,6 +56,44 @@ class Advertisements with ChangeNotifier {
           );
       print('recall');
       _ads = loadedAds;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> fetchAllAdBrowse(String cat) async {
+    Query query = col;
+    try {
+      final List<Advertisement> loadedAds = [];
+      await query
+          .where('markassold', isEqualTo: false)
+          .where('sellerid', isNotEqualTo: _auth.authUser.currentUser.uid)
+          .where('category', isEqualTo: cat)
+          .get()
+          .then(
+            (value) => value.docs.forEach(
+              (ad) {
+                final newAd = Advertisement(
+                  adid: ad['adid'],
+                  category: ad['category'],
+                  contactinfo: ad['contactinfo'],
+                  description: ad['description'],
+                  location: ad['location'],
+                  timestamp: DateTime.parse(ad['timestamp']),
+                  title: ad['title'],
+                  imageUrl: ad['image'],
+                  price: double.parse(ad['price']),
+                  markassold: ad['markassold'],
+                  reportcount: ad['reportcount'],
+                  sellerid: ad['sellerid'],
+                );
+                loadedAds.add(newAd);
+              },
+            ),
+          );
+      print('recall-3');
+      _adsBrowse = loadedAds;
       notifyListeners();
     } catch (e) {
       print(e);

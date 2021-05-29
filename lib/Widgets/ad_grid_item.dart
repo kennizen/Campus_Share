@@ -1,7 +1,6 @@
 import 'package:campus_share/Screens/ad_info.dart';
 import 'package:campus_share/services/share_price.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class AdGridItem extends StatelessWidget {
   final double price;
@@ -29,34 +28,6 @@ class AdGridItem extends StatelessWidget {
           ),
         );
       },
-      // child: GridTile(
-      //   child: Image.network(
-      //     imageUrl,
-      //     fit: BoxFit.contain,
-      //   ),
-      //   footer: Container(
-      //     padding: EdgeInsets.only(left: 10, top: 3, bottom: 3),
-      //     color: Colors.blue,
-      //     child: Column(
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       children: [
-      //         SharePrice(price).priceShare(),
-      //         Text(title),
-      //         Row(
-      //           children: [
-      //             Icon(Icons.location_pin),
-      //             Expanded(
-      //               child: Text(
-      //                 location,
-      //                 overflow: TextOverflow.ellipsis,
-      //               ),
-      //             ),
-      //           ],
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -75,12 +46,13 @@ class AdGridItem extends StatelessWidget {
               child: Image.network(imageUrl, fit: BoxFit.contain),
             ),
             SharePrice(price).priceShare(),
-            SizedBox(height: 10),
+            SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.only(left: 5, bottom: 5),
               child: Text(
                 title,
                 style: Theme.of(context).textTheme.headline1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             Row(

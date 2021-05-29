@@ -2,9 +2,6 @@ import 'package:campus_share/models/advertisement.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
-  final String uid;
-  DatabaseService({this.uid});
-
   final CollectionReference users =
       FirebaseFirestore.instance.collection('Users');
 
@@ -15,6 +12,7 @@ class DatabaseService {
     String username,
     String email,
     String pImage,
+    String uid,
   }) async {
     return await users.doc(uid).set({
       'username': username,
@@ -60,19 +58,34 @@ class DatabaseService {
   Future updateAd(Advertisement ad) async {
     try {
       await advertisments.doc(ad.adid).update({
-        'adid': ad.adid,
         'title': ad.title,
         'description': ad.description,
         'location': ad.location,
         'price': ad.price.toString(),
         'image': ad.imageUrl,
-        'markassold': ad.markassold,
         'category': ad.category,
-        'reportcount': ad.reportcount,
         'contactinfo': ad.contactinfo,
-        'timestamp': ad.timestamp.toIso8601String(),
-        'sellerid': ad.sellerid,
       });
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<void> reportAd(String adid) async {
+    try {
+      DocumentSnapshot snap = await advertisments.doc(adid).get();
+      var oldReportCount = snap.get('reportcount');
+      await advertisments.doc(adid).update({'reportcount': oldReportCount + 1});
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<void> updateProfileImage(String uid, String url) async {
+    try {
+      await users.doc(uid).update({'pImage': url});
     } catch (e) {
       print(e);
       return null;

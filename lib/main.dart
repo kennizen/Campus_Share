@@ -4,6 +4,7 @@ import 'package:campus_share/wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -46,30 +47,34 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           backgroundColor: Colors.white,
           textTheme: TextTheme(
-            headline2: TextStyle(
+            bodyText1: GoogleFonts.openSans(
+              fontSize: 16,
+              color: Colors.blueGrey[700],
+            ),
+            headline2: GoogleFonts.openSans(
               fontSize: 20,
               fontWeight: FontWeight.w600,
-              color: Colors.grey[900],
+              color: Colors.blueGrey[900],
             ),
-            headline1: TextStyle(
+            headline1: GoogleFonts.openSans(
               fontSize: 16,
               fontWeight: FontWeight.w400,
-              color: Colors.grey[900],
+              color: Colors.blueGrey[900],
             ),
-            headline4: TextStyle(
+            headline4: GoogleFonts.openSans(
               fontSize: 14,
               fontWeight: FontWeight.w400,
-              color: Colors.grey[900],
+              color: Colors.blueGrey[900],
             ),
-            headline3: TextStyle(
+            headline3: GoogleFonts.openSans(
               fontSize: 14,
-              fontWeight: FontWeight.w300,
-              color: Colors.grey[900],
+              fontWeight: FontWeight.w400,
+              color: Colors.blueGrey[900],
             ),
-            headline5: TextStyle(
+            headline5: GoogleFonts.openSans(
               fontSize: 12,
               fontWeight: FontWeight.w400,
-              color: Colors.grey[900],
+              color: Colors.blueGrey[900],
             ),
           ),
         ),

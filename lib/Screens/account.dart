@@ -1,15 +1,13 @@
-// import 'package:campus_share/providers/ad_provider.dart';
+import 'package:campus_share/Widgets/avatar_selector.dart';
 import 'package:campus_share/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// import 'package:provider/provider.dart';
 
 class Account extends StatelessWidget {
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    // final userAds = Provider.of<Advertisements>(context).userAds;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -31,35 +29,55 @@ class Account extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(snapshot.data['pImage']),
-                        SizedBox(width: 50),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Text(
-                                snapshot.data['username'],
-                                style: TextStyle(fontSize: 30),
+                        ElevatedButton(
+                          child: Icon(
+                            Icons.camera_alt_outlined,
+                            size: 30,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
+                            padding: const EdgeInsets.all(10),
+                            primary: Colors.blueGrey[900],
+                            elevation: 0,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => AvatarSelector(),
                               ),
-                            ),
-                            Text(
-                              snapshot.data['email'],
-                              style: Theme.of(context).textTheme.headline1,
-                            ),
-                            SizedBox(height: 3),
-                            Text(
-                              'Joining date: ${DateFormat.yMd().format(DateTime.parse(snapshot.data['joinDate']))}',
-                              style: Theme.of(context).textTheme.headline1,
-                            ),
-                          ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            snapshot.data['username'],
+                            style: TextStyle(fontSize: 30),
+                          ),
+                        ),
+                        Text(
+                          snapshot.data['email'],
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
+                        SizedBox(height: 3),
+                        Text(
+                          'Joining date: ${DateFormat.yMd().format(DateTime.parse(snapshot.data['joinDate']))}',
+                          style: Theme.of(context).textTheme.headline1,
                         ),
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30),
+                      padding: const EdgeInsets.only(top: 50),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blueGrey[900],

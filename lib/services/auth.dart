@@ -24,28 +24,25 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
-      await DatabaseService(uid: user.uid).createUser(
+      await DatabaseService().createUser(
         email: email,
         pImage: pImage,
         username: username,
+        uid: user.uid,
       );
-      return user;
     } catch (e) {
       print(e.toString());
-      return null;
+      throw (e);
     }
   }
 
   //sign in with email and password
   Future signInWithEmailAndPassword({String email, String password}) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      User user = result.user;
-      return user;
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
       print(e.toString());
-      return null;
+      throw (e);
     }
   }
 

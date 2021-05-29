@@ -1,20 +1,54 @@
 import 'package:campus_share/providers/ad_provider.dart';
+import 'package:campus_share/services/database_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../services/share_price.dart';
 
-class AdInfo extends StatelessWidget {
+class AdInfo extends StatefulWidget {
   final String adid;
-  final screenWidth = double.infinity;
 
   AdInfo(this.adid);
 
   @override
+  _AdInfoState createState() => _AdInfoState();
+}
+
+class _AdInfoState extends State<AdInfo> {
+  final screenWidth = double.infinity;
+
+  Future<void> _showAlert() async {
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Report Ad'),
+        content: Text(
+          'Are you sure you want to report this Ad?',
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Yes'),
+            onPressed: () async {
+              await DatabaseService().reportAd(widget.adid);
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('No'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ads = Provider.of<Advertisements>(context, listen: false).ads;
-    final id = ads.firstWhere((ad) => ad.adid == adid);
+    final id = ads.firstWhere((ad) => ad.adid == widget.adid);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -103,9 +137,13 @@ class AdInfo extends StatelessWidget {
                                 Icons.location_on_outlined,
                                 size: 18,
                               ),
-                              Text(
-                                id.location,
-                                style: Theme.of(context).textTheme.headline1,
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  id.location,
+                                  style: Theme.of(context).textTheme.headline3,
+                                  overflow: TextOverflow.fade,
+                                ),
                               ),
                             ],
                           ),
@@ -295,7 +333,9 @@ class AdInfo extends StatelessWidget {
                     primary: Colors.blueGrey[900],
                     elevation: 0,
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await _showAlert();
+                  },
                   child: Text(
                     'REPORT THIS AD',
                     style: Theme.of(context)

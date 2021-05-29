@@ -38,6 +38,7 @@ class _SellShareInfoState extends State<SellShareInfo> {
     final pickedFile = await picker.getImage(
       source: src,
       maxHeight: 500,
+      maxWidth: 500,
       imageQuality: 50,
     );
     setState(() {
@@ -126,7 +127,7 @@ class _SellShareInfoState extends State<SellShareInfo> {
         reportcount: ad.reportcount,
         sellerid: _auth.authUser.currentUser.uid,
       );
-      await DatabaseService(uid: _auth.authUser.currentUser.uid).createAd(ad);
+      await DatabaseService().createAd(ad);
       setState(() {
         _isLoading = false;
       });
@@ -148,7 +149,7 @@ class _SellShareInfoState extends State<SellShareInfo> {
       setState(() {
         _isLoading = true;
       });
-      await DatabaseService(uid: _auth.authUser.currentUser.uid).updateAd(ad);
+      await DatabaseService().updateAd(ad);
       setState(() {
         _isLoading = false;
       });
