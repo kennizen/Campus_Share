@@ -28,7 +28,7 @@ class AdGrid extends StatelessWidget {
                   color: Colors.white,
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: 250,
+                      mainAxisExtent: 240,
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,

@@ -41,6 +41,7 @@ class AdGridItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              alignment: Alignment.center,
               margin: const EdgeInsets.only(bottom: 10),
               height: 130,
               child: Image.network(imageUrl, fit: BoxFit.contain),

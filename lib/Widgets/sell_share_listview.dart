@@ -16,7 +16,7 @@ class SellShareListView extends StatelessWidget {
           iconTheme: IconThemeData(
             color: Colors.blueGrey[900], //change your color here
           ),
-          elevation: 0,
+          elevation: 1,
           backgroundColor: Theme.of(context).backgroundColor,
           title: Text(
             appBarTitle,

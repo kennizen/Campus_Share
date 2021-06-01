@@ -41,7 +41,7 @@ class _AvatarSelectorState extends State<AvatarSelector> {
             'Avatar selection',
             style: Theme.of(context).textTheme.headline2,
           ),
-          elevation: 0,
+          elevation: 1,
           iconTheme: IconThemeData(
             color: Colors.blueGrey[900],
           ),
@@ -61,11 +61,15 @@ class _AvatarSelectorState extends State<AvatarSelector> {
                       height: 60,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
+                        color: _selectedImage == ''
+                            ? Colors.blueGrey[900]
+                            : Colors.transparent,
                       ),
                       child: _selectedImage == ''
                           ? Icon(
                               Icons.person,
                               size: 40,
+                              color: Colors.white,
                             )
                           : Image.asset(_selectedImage),
                     ),

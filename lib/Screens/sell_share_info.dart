@@ -167,7 +167,7 @@ class _SellShareInfoState extends State<SellShareInfo> {
           iconTheme: IconThemeData(
             color: Colors.blueGrey[900], //change your color here
           ),
-          elevation: 0,
+          elevation: 1,
           backgroundColor: Theme.of(context).backgroundColor,
           title: Text(
             widget._cat,
@@ -302,7 +302,7 @@ class _SellShareInfoState extends State<SellShareInfo> {
                   textAlignVertical: TextAlignVertical.bottom,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 4),
-                    labelText: 'Ad descrpition*',
+                    labelText: 'Ad description*',
                   ),
                   onSaved: (val) {
                     description = val;
@@ -348,7 +348,7 @@ class _SellShareInfoState extends State<SellShareInfo> {
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 4),
-                    labelText: 'Contact Info (Phone/email/others)*',
+                    labelText: 'Contact info (phone/email/others)*',
                   ),
                   onSaved: (val) {
                     contactinfo = val;

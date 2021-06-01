@@ -11,7 +11,7 @@ class BrowseCatScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        elevation: 0,
+        elevation: 1,
         iconTheme: IconThemeData(
           color: Colors.blueGrey[900],
         ),

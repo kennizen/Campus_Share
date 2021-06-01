@@ -103,7 +103,7 @@ class _UserAdInfoState extends State<UserAdInfo> {
               ),
             ),
           ),
-          elevation: 0.0,
+          elevation: 0,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -180,7 +180,7 @@ class _UserAdInfoState extends State<UserAdInfo> {
                         ),
                         Text(
                           DateFormat.yMd().format(id.timestamp),
-                          style: Theme.of(context).textTheme.headline1,
+                          style: Theme.of(context).textTheme.headline3,
                         ),
                       ],
                     ),

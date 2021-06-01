@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
               color: Colors.blueGrey[900],
             ),
             headline5: GoogleFonts.openSans(
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: FontWeight.w400,
               color: Colors.blueGrey[900],
             ),

@@ -50,7 +50,7 @@ class Home extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
-                        'Browse categories',
+                        'Browse by categories',
                         style: Theme.of(context).textTheme.headline1,
                       ),
                     ),

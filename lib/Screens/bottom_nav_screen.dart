@@ -37,8 +37,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
+              activeIcon: Icon(Icons.home_rounded),
               backgroundColor: Theme.of(context).backgroundColor,
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.home_outlined),
               label: 'HOME',
             ),
             BottomNavigationBarItem(
@@ -52,13 +53,15 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               label: 'SELL',
             ),
             BottomNavigationBarItem(
+              activeIcon: Icon(Icons.favorite_rounded),
               backgroundColor: Theme.of(context).backgroundColor,
               icon: Icon(Icons.favorite_border_rounded),
               label: 'MY ADS',
             ),
             BottomNavigationBarItem(
+              activeIcon: Icon(Icons.person_rounded),
               backgroundColor: Theme.of(context).backgroundColor,
-              icon: Icon(Icons.perm_identity),
+              icon: Icon(Icons.person_outline_rounded),
               label: 'PROFILE',
             ),
           ],

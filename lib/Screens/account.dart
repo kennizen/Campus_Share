@@ -6,12 +6,40 @@ import 'package:intl/intl.dart';
 
 class Account extends StatelessWidget {
   final AuthService _auth = AuthService();
+
+  Future<void> _showAlert(context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Logout'),
+        content: Text(
+          'Are you sure you want to logout?',
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Yes'),
+            onPressed: () async {
+              await _auth.signOutOfApp();
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('No'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        elevation: 0,
+        elevation: 1,
         backgroundColor: Theme.of(context).backgroundColor,
         title: Text('Profile', style: Theme.of(context).textTheme.headline2),
       ),
@@ -35,7 +63,7 @@ class Account extends StatelessWidget {
                         Image.asset(snapshot.data['pImage']),
                         ElevatedButton(
                           child: Icon(
-                            Icons.camera_alt_outlined,
+                            Icons.person,
                             size: 30,
                           ),
                           style: ElevatedButton.styleFrom(
@@ -83,7 +111,7 @@ class Account extends StatelessWidget {
                           primary: Colors.blueGrey[900],
                         ),
                         onPressed: () async {
-                          await _auth.signOutOfApp();
+                          await _showAlert(context);
                         },
                         child: Text(
                           'LOGOUT',

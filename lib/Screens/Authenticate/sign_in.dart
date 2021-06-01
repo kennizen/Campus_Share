@@ -332,23 +332,14 @@ class _SignInState extends State<SignIn> {
                         onPressed: () async {
                           submit();
                         },
-                        child: _isLoginSelected
-                            ? _isLoading
-                                ? CircularProgressIndicator(
-                                    backgroundColor: Colors.white,
-                                  )
-                                : Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    color: Colors.white,
-                                  )
-                            : _isLoading
-                                ? CircularProgressIndicator(
-                                    backgroundColor: Colors.white,
-                                  )
-                                : Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    color: Colors.white,
-                                  ),
+                        child: _isLoading
+                            ? CircularProgressIndicator(
+                                backgroundColor: Colors.white,
+                              )
+                            : Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: Colors.white,
+                              ),
                       ),
                     ],
                   ),
@@ -363,6 +354,10 @@ class _SignInState extends State<SignIn> {
                         style: GoogleFonts.openSans(),
                       ),
                       TextButton(
+                        style: ButtonStyle(
+                          overlayColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                        ),
                         onPressed: changeForm,
                         child: Text(
                           _isLoginSelected ? 'Create account' : 'Sign in',

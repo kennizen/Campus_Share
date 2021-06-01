@@ -18,7 +18,7 @@ class AdInfo extends StatefulWidget {
 class _AdInfoState extends State<AdInfo> {
   final screenWidth = double.infinity;
 
-  Future<void> _showAlert() async {
+  Future<void> _showAlert(context) async {
     await showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -28,14 +28,30 @@ class _AdInfoState extends State<AdInfo> {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('Yes'),
+            child: Text(
+              'Yes',
+            ),
             onPressed: () async {
+              final snackBar = SnackBar(
+                backgroundColor: Colors.blueGrey[900],
+                duration: Duration(seconds: 1),
+                content: Text(
+                  'Advertisment reported',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1
+                      .copyWith(color: Colors.white),
+                ),
+              );
               await DatabaseService().reportAd(widget.adid);
               Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
           ),
           TextButton(
-            child: Text('No'),
+            child: Text(
+              'No',
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -150,7 +166,7 @@ class _AdInfoState extends State<AdInfo> {
                         ),
                         Text(
                           DateFormat.yMd().format(id.timestamp),
-                          style: Theme.of(context).textTheme.headline1,
+                          style: Theme.of(context).textTheme.headline3,
                         ),
                       ],
                     ),
@@ -334,7 +350,8 @@ class _AdInfoState extends State<AdInfo> {
                     elevation: 0,
                   ),
                   onPressed: () async {
-                    await _showAlert();
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    await _showAlert(context);
                   },
                   child: Text(
                     'REPORT THIS AD',

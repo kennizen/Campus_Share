@@ -21,7 +21,7 @@ class _MyAdsState extends State<MyAds> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        elevation: 0,
+        elevation: 1,
         backgroundColor: Theme.of(context).backgroundColor,
         title: Text(
           'All advertisments',
@@ -149,20 +149,38 @@ class _MyAdsState extends State<MyAds> {
                             children: [
                               Container(
                                 alignment: Alignment.center,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  color: value.userAds[index].markassold
-                                      ? Colors.redAccent[100]
-                                      : Colors.cyanAccent,
-                                  borderRadius: BorderRadius.circular(20),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 10,
                                 ),
-                                child: Text(
-                                  value.userAds[index].markassold
-                                      ? 'Disabled'
-                                      : 'Active',
-                                  style: Theme.of(context).textTheme.headline4,
+                                decoration: BoxDecoration(
+                                  color: Colors.blueGrey[900],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 10,
+                                      height: 10,
+                                      decoration: BoxDecoration(
+                                        color: value.userAds[index].markassold
+                                            ? Colors.redAccent
+                                            : Colors.greenAccent,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      value.userAds[index].markassold
+                                          ? 'Disabled'
+                                          : 'Active',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline4
+                                          .copyWith(color: Colors.white),
+                                    ),
+                                  ],
                                 ),
                               ),
                               ElevatedButton(
