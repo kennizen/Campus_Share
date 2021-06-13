@@ -8,24 +8,26 @@ class BrowseCatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        elevation: 1,
-        iconTheme: IconThemeData(
-          color: Colors.blueGrey[900],
-        ),
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        title: Text(
-          cat,
-          style: Theme.of(context).textTheme.headline2,
+        appBar: AppBar(
+          elevation: 1,
+          iconTheme: IconThemeData(
+            color: Colors.blueGrey[900],
+          ),
+          backgroundColor: Theme.of(context).backgroundColor,
+          title: Text(
+            cat,
+            style: Theme.of(context).textTheme.headline2,
+          ),
         ),
-      ),
-      body: Container(
-        child: Column(
-          children: [
-            AdGrid(cat),
-          ],
+        body: Container(
+          child: Column(
+            children: [
+              AdGrid(cat),
+            ],
+          ),
         ),
       ),
     );
